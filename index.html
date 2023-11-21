@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>SheetLink Export Wizard</title>
+  <link rel="icon" href="gsheet-favicon.png" type="image/x-icon">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0f9d58;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      max-width: 400px;
+      width: 100%;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    select,
+    input[type="text"],
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    input[type="text"],
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+
+    input[type="text"]::placeholder {
+      color: #aaa;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>SheetLink Export Wizard</h2>
+    <label for="sheetLink">Enter Google Sheet Link:</label>
+    <input type="text" id="sheetLink" placeholder="Enter Google Sheet Link">
+
+    <label for="format">Choose Format:</label>
+    <select id="format">
+      <option value="xlsx">XLSX</option>
+      <option value="csv">CSV</option>
+      <option value="pdf">PDF</option>
+    </select>
+
+    <button onclick="convertLink()">Convert Link</button>
+
+    <label for="outputLink">Converted Link:</label>
+    <input type="text" id="outputLink" placeholder="Converted Link" readonly>
+
+    <button onclick="copyLink()">Copy Link</button>
+    <div style="text-align: center; margin-top: 20px;">
+      <p>Created by <a href="https://vivek378521.github.io" target="_blank">Vivek Khatri</a></p>
+    </div>
+  </div>
+
+  <script>
+    function convertLink() {
+      const sheetLink = document.getElementById('sheetLink').value.trim();
+      const format = document.getElementById('format').value;
+      const regex = /\/d\/([^/]+)\/.*gid=([^#]+)/;
+      const matches = sheetLink.match(regex);
+
+      if (matches && matches.length === 3) {
+        const key = matches[1];
+        const gid = matches[2];
+        const convertedLink = `https://docs.google.com/spreadsheets/d/${key}/export?format=${format}&gid=${gid}`;
+        document.getElementById('outputLink').value = convertedLink;
+      } else {
+        alert('Invalid Google Sheet Link!');
+      }
+    }
+
+    function copyLink() {
+      const outputLink = document.getElementById('outputLink');
+      outputLink.select();
+      outputLink.setSelectionRange(0, 99999); /* For mobile devices */
+      document.execCommand('copy');
+      alert('Link copied to clipboard!');
+    }
+  </script>
+</body>
+
+</html>
