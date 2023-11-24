@@ -102,6 +102,7 @@
     <input type="text" id="outputLink" placeholder="Converted Link" readonly>
 
     <button onclick="copyLink()">Copy Link</button>
+    <button onclick="openLinkInNewTab()">Download File</button>
     <div style="text-align: center; margin-top: 20px;">
       <p>Created by <a href="https://vivek378521.github.io" target="_blank">Vivek Khatri</a></p>
     </div>
@@ -130,6 +131,14 @@
       outputLink.setSelectionRange(0, 99999); /* For mobile devices */
       document.execCommand('copy');
       alert('Link copied to clipboard!');
+    }
+    function openLinkInNewTab() {
+      const outputLink = document.getElementById('outputLink').value;
+      if (outputLink) {
+        window.open(outputLink, '_blank');
+      } else {
+        alert('Please generate the link first.');
+      }
     }
   </script>
 </body>
